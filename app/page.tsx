@@ -7,7 +7,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Grow from "@mui/material/Grow";
 import MuiAlert from "@mui/material/Alert";
 import Typewriter from "@/components/Typewriter";
-
+import Image from "next/image";
 const Home: React.FC = () => {
   const router = useRouter();
   const [isHovered,setIsHovered] = useState(false);
@@ -112,7 +112,7 @@ const Home: React.FC = () => {
                     onMouseEnter={()=>{setIsHovered(true)}}
                     onMouseLeave={()=>{setIsHovered(false)}}
                   >
-                    <img
+                    <Image
                       style={{ width: "2.5rem", height: "2.5rem" }}
                       src="https://www.svgrepo.com/show/227633/login.svg"
                       loading="lazy"

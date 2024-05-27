@@ -190,14 +190,14 @@ const Registration: React.FC = () => {
                   <Modal onClose={closeModal}>
                     <div className="p-6 text-center">
                       <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                        Are you sure you want to set this mentor's Availability
+                        Are you sure you want to set this mentor&apos;s Availability
                         to these no. of Students?
                       </h3>
                       <button
                         onClick={handleSubmit}
                         className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-Damion-cursive rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                       >
-                        Yes, I'm sure
+                        Yes, I&apos;m sure
                       </button>
                       <button
                         onClick={closeModal}
