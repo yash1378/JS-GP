@@ -1,22 +1,21 @@
 // Sidebar.js
-'useSidebar'
+"useSidebar";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FaBars } from "react-icons/fa";
 
 interface SidebarProps {
-    isOpen: boolean;
-    closeSidebar: ()=>void;
-  }
-  
+  isOpen: boolean;
+  closeSidebar: () => void;
+}
 
-const Sidebar:React.FC<SidebarProps>=({ isOpen, closeSidebar })=> {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(true); // Initially, keep the calendar closed
   const [date, setDate] = useState(""); // Empty string for initial calendar value
   const [mentorData, setMentorData] = useState([]);
   const [selectedMentor, setSelectedMentor] = useState("");
-  const [enrol,setEnrol] = useState(false);
+  const [enrol, setEnrol] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -29,37 +28,32 @@ const Sidebar:React.FC<SidebarProps>=({ isOpen, closeSidebar })=> {
   };
   const router = useRouter();
 
-  const changeurl = ()=>{
-    if(selectedMentor && !date && !enrol){
-        router.push(`?mentorName=${selectedMentor}`)
-    }
-    else if(selectedMentor && !date && enrol){
-        router.push(`?mentorName=${selectedMentor}&enrolled=${enrol}`)
-    }
-    else if(selectedMentor && date && !enrol){
-        router.push(`?mentorName=${selectedMentor}&enddate=${date}`)
-    }
-    else if(selectedMentor && date && enrol){
-        router.push(`?mentorName=${selectedMentor}&enddate=${date}&enrolled=${enrol}`)
-    }
-    else if(!selectedMentor && date && !enrol){
-        router.push(`?enddate=${date}`)
-    }
-    else if(!selectedMentor && date && enrol){
-        router.push(`?enddate=${date}&enrolled=${enrol}`)
-    }
-    else if(!selectedMentor && !date && enrol){
-        router.push(`?enrolled=${enrol}`)
+  const changeurl = () => {
+    if (selectedMentor && !date && !enrol) {
+      router.push(`?mentorName=${selectedMentor}`);
+    } else if (selectedMentor && !date && enrol) {
+      router.push(`?mentorName=${selectedMentor}&enrolled=${enrol}`);
+    } else if (selectedMentor && date && !enrol) {
+      router.push(`?mentorName=${selectedMentor}&enddate=${date}`);
+    } else if (selectedMentor && date && enrol) {
+      router.push(
+        `?mentorName=${selectedMentor}&enddate=${date}&enrolled=${enrol}`
+      );
+    } else if (!selectedMentor && date && !enrol) {
+      router.push(`?enddate=${date}`);
+    } else if (!selectedMentor && date && enrol) {
+      router.push(`?enddate=${date}&enrolled=${enrol}`);
+    } else if (!selectedMentor && !date && enrol) {
+      router.push(`?enrolled=${enrol}`);
     }
     setEnrol(false);
-  }
+  };
 
-  const removefilter = () =>{
-    router.push('/stdashboard/');
+  const removefilter = () => {
+    router.push("/stdashboard/");
 
     resetValues();
-
-  }
+  };
 
   // Function to reset all state variables
   const resetValues = () => {
@@ -70,14 +64,11 @@ const Sidebar:React.FC<SidebarProps>=({ isOpen, closeSidebar })=> {
     setEnrol(false);
   };
 
-
-
-
   useEffect(() => {
     // Fetch mentor data from the server when the component mounts
     const fetchMentorData = async () => {
       try {
-        const response = await fetch("https://gp-backend-u5ty.onrender.com/api/mentorData");
+        const response = await fetch("http://52.190.11.22:80/api/mentorData");
         // const response = await fetch("http://localhost:5000/api/mentorData");
         const data = await response.json();
         setMentorData(data);
@@ -120,10 +111,13 @@ const Sidebar:React.FC<SidebarProps>=({ isOpen, closeSidebar })=> {
       </button>
 
       {/* Currently Enrolled Button */}
-      <button className="ml-0 mt-40 mb-5 w-full px-3 py-5 mb-2 text-white bg-zinc-700 z-70 hover:bg-zinc-800" onClick={() => {
-        console.log(enrol)
-        setEnrol(true)}
-      }>
+      <button
+        className="ml-0 mt-40 mb-5 w-full px-3 py-5 mb-2 text-white bg-zinc-700 z-70 hover:bg-zinc-800"
+        onClick={() => {
+          console.log(enrol);
+          setEnrol(true);
+        }}
+      >
         Currently Enrolled
       </button>
 
@@ -168,20 +162,28 @@ const Sidebar:React.FC<SidebarProps>=({ isOpen, closeSidebar })=> {
         {/* Dropdown Content */}
         {isDropdownOpen && (
           <div className="absolute mt-1 w-full bg-zinc-700 text-white rounded-lg py-2 text-left z-70 hover:bg-zinc-800">
-            {mentorData.map((mentor:any) => (
-              <button
-                key={mentor.id}
-                className={`w-full px-3 py-2 hover:bg-zinc-800 focus:outline-none ${
-                  selectedMentor === mentor.name ? "bg-zinc-800" : ""
-                }`}
-                onClick={() => {
-                  setSelectedMentor(mentor.name);
-                  toggleDropdown(); // Close the dropdown after selecting a mentor
-                }}
-              >
-                {mentor.name}
-              </button>
-            ))}
+            {mentorData?.length > 0 ? (
+            mentorData.map((mentor: any) => (
+                <button
+                  key={mentor.id}
+                  className={`w-full px-3 py-2 hover:bg-zinc-800 focus:outline-none ${
+                    selectedMentor === mentor.name ? "bg-zinc-800" : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedMentor(mentor.name);
+                    toggleDropdown(); // Close the dropdown after selecting a mentor
+                  }}
+                >
+                  {mentor.name}
+                </button>
+              ))
+            ):(
+                <tr>
+                <td colSpan={4} className="text-center py-4">
+                  No data available
+                </td>
+              </tr>
+            )}
           </div>
         )}
       </div>
@@ -189,19 +191,17 @@ const Sidebar:React.FC<SidebarProps>=({ isOpen, closeSidebar })=> {
       <button
         className="ml-0 mt-5 mb-5 w-full px-3 py-5 mb-2 text-white bg-zinc-700 z-60 hover:bg-zinc-800"
         onClick={changeurl}
-    
       >
         Apply Filters
       </button>
       <button
         className="ml-0 mt-2 mb-5 w-full px-3 py-5 mb-2 text-white bg-zinc-700 z-60 hover:bg-zinc-800"
         onClick={removefilter}
-    
       >
         Remove Filters
       </button>
     </div>
   );
-}
+};
 
 export default Sidebar;

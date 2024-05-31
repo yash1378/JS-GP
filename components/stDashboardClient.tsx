@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState, ChangeEvent } from "react";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/navigation";
@@ -6,17 +6,16 @@ import { useSearchParams } from "next/navigation";
 import { FaBars } from "react-icons/fa";
 
 interface Student {
-    _id: string;
-    name: string;
-    phone: string;
-    email: string;
-    date: string;
-    class: string;
-    sub: string;
-    mentor: string;
-  }
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  class: string;
+  sub: string;
+  mentor: string;
+}
 
-  
 interface DataPageProps {
   data: Student[];
 }
@@ -34,6 +33,8 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   let filteredData = data;
+
+  console.log(data);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,15 +55,15 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    // const { mentorName, enddate, enrolled } = router.query;
-    const mentorName = searchParams.get('mentorName');
-    const enddate = searchParams.get('enddate')
-    const enrolled = searchParams.get('enrolled');
+    // const { mentor, enddate, enrolled } = router.query;
+    const mentor = searchParams.get("mentorName");
+    const enddate = searchParams.get("enddate");
+    const enrolled = searchParams.get("enrolled");
     const endDate = new Date(enddate as string);
     endDate.setDate(endDate.getDate() - 30);
 
-    if (mentorName) {
-      filteredData = filteredData.filter((item) => item.mentor === mentorName);
+    if (mentor) {
+      filteredData = filteredData.filter((item) => item.mentor === mentor);
     }
     if (enddate) {
       const formattedEndDate = endDate.toISOString().slice(0, 10);
@@ -82,22 +83,24 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
     }
 
     setFinal(filteredData);
-    setTotalStudents(filteredData.length);
+    setTotalStudents(filteredData ? filteredData.length : 0);
 
     const today = new Date();
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(today.getDate() - 30);
 
-    const activeStudentCount = filteredData.filter((item) => {
-      const enrollmentDate = new Date(item.date);
-      return enrollmentDate >= thirtyDaysAgo && enrollmentDate <= today;
-    }).length;
+    const activeStudentCount = filteredData
+      ? filteredData.filter((item) => {
+          const enrollmentDate = new Date(item.date);
+          return enrollmentDate >= thirtyDaysAgo && enrollmentDate <= today;
+        }).length
+      : 0;
 
     const appliedFilters: string[] = [];
     setActiveStudents(activeStudentCount);
 
-    if (mentorName) {
-      appliedFilters.push(`Mentor: ${mentorName}`);
+    if (mentor) {
+      appliedFilters.push(`Mentor: ${mentor}`);
     }
     if (enddate) {
       appliedFilters.push(`Enrollment Date: ${enddate}`);
@@ -106,7 +109,7 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
       appliedFilters.push("Enrolled Within Last 30 Days");
     }
 
-    filteredData = filteredData.reverse();
+    filteredData = filteredData ? filteredData.reverse() : [];
     setActiveFilters(appliedFilters);
   }, [searchParams, searchText]);
 
@@ -277,10 +280,10 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-gray-800" >
+                  <tbody className="bg-gray-800">
                     {final.map((item, index) => (
                       <tr
-                        key={item._id}
+                        key={item.id}
                         className={`text-base ${
                           index % 2 === 0 ? "bg-black bg-opacity-20" : ""
                         }`}

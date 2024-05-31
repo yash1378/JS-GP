@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import React, { FormEvent, useState } from "react";
 import Toast from "@/components/Toast";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 import { FaBars } from "react-icons/fa";
 
-const Registration:React.FC=()=>{
+const Registration: React.FC = () => {
   const [studentName, setStudentName] = useState("");
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -23,35 +23,32 @@ const Registration:React.FC=()=>{
   const [reenrollmentDropdownOpen, setReenrollmentDropdownOpen] =
     useState(false);
   // Add state variable for toast visibility
-  const [showToast, setshowToast] = useState(false)
+  const [showToast, setshowToast] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Function to open the modal
-  const openModal = (e:FormEvent) => {
+  const openModal = (e: FormEvent) => {
     e.preventDefault(); //this command is necessary otheriwse the form will get reload
     setIsModalVisible(true);
   };
 
   // Function to close the modal
-  const closeModal = (e:FormEvent) => {
+  const closeModal = (e: FormEvent) => {
     e.preventDefault(); //this command is necessary otheriwse the form will get reload
     setIsModalVisible(false);
   };
 
   const toggleSidebar = () => {
-    const sidebar:any = document.getElementById("drawer-navigation");
+    const sidebar: any = document.getElementById("drawer-navigation");
     sidebar.classList.toggle("-translate-x-full");
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   const closeSidebar = () => {
-    const sidebar:any = document.getElementById("drawer-navigation");
+    const sidebar: any = document.getElementById("drawer-navigation");
     sidebar.classList.add("-translate-x-full");
   };
-
-
-
 
   const toast = async () => {
     setshowToast(true);
@@ -60,7 +57,7 @@ const Registration:React.FC=()=>{
     }, 3000);
   };
 
-  const handleSubmit = async (e:FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     closeModal(e);
@@ -88,8 +85,8 @@ const Registration:React.FC=()=>{
       sub: subscriptionType,
     };
     try {
-      const response = await fetch("https://gp-backend-u5ty.onrender.com/", {
-        // const response = await fetch("http://localhost:5000/", {
+      //   const response = await fetch("http://20.204.209.69:8080/", {
+      const response = await fetch("http://52.190.11.22:80/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +118,7 @@ const Registration:React.FC=()=>{
     // Implement form submission logic here (e.g., send data to the backend)
   };
 
-  const toggleDropdown = (field:string) => {
+  const toggleDropdown = (field: string) => {
     // Toggle the dropdown state based on the field
     switch (field) {
       case "class":
@@ -140,7 +137,7 @@ const Registration:React.FC=()=>{
 
   return (
     <>
-      <body className="min-h-screen  pt-4 bg-gray-700">
+      <div className="min-h-screen  pt-4 bg-gray-700">
         {isSidebarOpen && (
           <div
             className=" fixed top-0 left-0 z-30 w-full h-full bg-black opacity-70 transition-opacity duration-300 ease-in-out"
@@ -600,19 +597,19 @@ const Registration:React.FC=()=>{
             </div>
           </form>
         </div>
-          {/* Your form and dropdowns here */}
+        {/* Your form and dropdowns here */}
 
-          {/* Display the success toast if showSuccessToast is true */}
-          {showToast && (
-            <Toast
-              message={message}
-              bgColor={color}
-              onClose={() => setshowToast(false)}
-            />
-          )}
-      </body>
+        {/* Display the success toast if showSuccessToast is true */}
+        {showToast && (
+          <Toast
+            message={message}
+            bgColor={color}
+            onClose={() => setshowToast(false)}
+          />
+        )}
+      </div>
     </>
   );
-}
+};
 
 export default Registration;

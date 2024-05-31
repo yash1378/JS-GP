@@ -5,13 +5,12 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 
 interface Mentor {
-  _id: string;
+  id: string;
   name: string;
-  number: number;
+  phone: number;
   college: string;
   date: string;
   handle: number;
-  __v: number;
   on: number;
   total: number;
 }
@@ -43,7 +42,7 @@ const Registration: React.FC = () => {
   const fetchMentors = async () => {
     try {
       const response = await fetch(
-        "https://gp-backend-u5ty.onrender.com/api/mentorData"
+        "http://52.190.11.22:80/api/mentorData"
       );
       if (response.ok) {
         const data: Mentor[] = await response.json();
@@ -59,24 +58,25 @@ const Registration: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     closeModal(e);
+    console.log(selectedMentor)
+    console.log(selectedStudentCount)
+    const formData={
+        mentorName:selectedMentor,
+        studentCount:selectedStudentCount
+    }
 
     try {
-      const response = await fetch(
-        "https://gp-backend-u5ty.onrender.com/api/update",
-        {
+        const response = await fetch("http://52.190.11.22:80/api/update",{
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            mentorName: selectedMentor,
-            studentCount: selectedStudentCount,
-          }),
-        }
-      );
+          body: JSON.stringify(formData),
+        });
 
+      console.log(response)
       if (response.ok) {
-        setMessage("Data Sent Successfully");
+        setMessage("Data Updated Successfully");
         setColor("green");
         showToastMessage();
       } else {
@@ -126,11 +126,19 @@ const Registration: React.FC = () => {
                 required
               >
                 <option value="">Select Mentor</option>
-                {mentors.map((mentor: Mentor) => (
-                  <option key={mentor._id} value={mentor.name}>
-                    {mentor.name}
-                  </option>
-                ))}
+                {mentors?.length>0 ? (
+                mentors.map((mentor: Mentor) => (
+                    <option key={mentor.id} value={mentor.name}>
+                      {mentor.name}
+                    </option>
+                  ))
+                ):(
+                    <tr>
+                    <td colSpan={4} className="text-center py-4">
+                      No data available
+                    </td>
+                  </tr>
+                )}
               </select>
             </div>
             <div className="mb-4">

@@ -38,7 +38,11 @@ const Typewriter: React.FC<TypewriterProps> = ({ words, speed }) => {
     };
   }, [words, speed, wordIndex, charIndex]);
 
-  return <Typography variant="h4" color="white">{displayText}</Typography>;
+  return (
+    <Typography variant="h4" color="white">
+      {displayText}
+    </Typography>
+  );
 };
 
 export default Typewriter;

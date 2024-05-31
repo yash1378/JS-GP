@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Toast from "@/components/Toast";
 import { useRouter } from "next/navigation";
@@ -53,8 +53,8 @@ const MentorInputForm: React.FC<MentorInputFormProps> = () => {
 
     try {
       const response = await fetch(
-        "https://gp-backend-u5ty.onrender.com/mentorData",
-        // "http://localhost:5000/mentorData",
+        // "http://4.224.114.194:8080/mentorData",
+        "http://52.190.11.22:80/mentorData",
         {
           method: "POST",
           headers: {

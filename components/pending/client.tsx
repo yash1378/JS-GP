@@ -1,54 +1,51 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import DataPage from "./DataPage";
 
 // Type for additional data format
 interface AdditionalData {
-    _id: string;
-    name: string;
-    number: number;
-    college: string;
-    date: string;
-    handle: number;
-    __v: number;
-    on: number;
-    total: number;
-  }
-  
-  // Type for data format
-  interface StudentData {
-    _id: string;
-    name: string;
-    phone: string;
-    email: string;
-    date: string;
-    class: string;
-    sub: string;
-    mentor: string;
-    __v: number;
-  }
+  id: string;
+  name: string;
+  phone: number;
+  college: string;
+  date: string;
+  handle: number;
+  on: number;
+  total: number;
+}
 
-  interface ParentProps {
-    data:StudentData[];
-    additionalData:AdditionalData[];
-  }
+// Type for data format
+interface StudentData {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  class: string;
+  sub: string;
+  mentor: string;
+}
 
-  
-const ParentComponent:React.FC<ParentProps>=({data,additionalData})=> {
+interface ParentProps {
+  data: StudentData[];
+  additionalData: AdditionalData[];
+}
 
-  const [studentsWithoutMentor, setStudentsWithoutMentor] = useState<StudentData[]>([]);
+const ParentComponent: React.FC<ParentProps> = ({ data, additionalData }) => {
+  const [studentsWithoutMentor, setStudentsWithoutMentor] = useState<
+    StudentData[]
+  >([]);
 
   useEffect(() => {
     // Filter students without mentors
-    const studentsWithoutMentors:StudentData[] = data.filter((student) => !student.mentor);
+    const studentsWithoutMentors: StudentData[] = data.filter(
+      (student) => !student.mentor
+    );
     setStudentsWithoutMentor(studentsWithoutMentors);
   }, [data]);
 
-
-
-
   // Function to update data and remove assigned students
-  const updateData = (newData:StudentData[]) => {
+  const updateData = (newData: StudentData[]) => {
     // Update the data array with the new data
     // This will trigger a re-render of DataPage with the updated data
     data = newData;
@@ -58,16 +55,17 @@ const ParentComponent:React.FC<ParentProps>=({data,additionalData})=> {
     setStudentsWithoutMentor(studentsWithoutMentors);
   };
 
-
+  console.log(studentsWithoutMentor);
+  console.log(updateData);
+  console.log(additionalData);
 
   return (
     <DataPage
-    data={studentsWithoutMentor} // Pass the filtered data without mentors
-    updateData={updateData}
-    additionalData={additionalData}
+      data={studentsWithoutMentor} // Pass the filtered data without mentors
+      updateData={updateData}
+      additionalData={additionalData}
     />
   );
-}
+};
 
 export default ParentComponent;
-

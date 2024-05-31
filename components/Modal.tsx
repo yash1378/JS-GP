@@ -1,10 +1,10 @@
 // components/Modal.tsx
-'use client'
+"use client";
 import React, { FormEvent, ReactNode } from "react";
 
 interface ModalProps {
   children: ReactNode;
-  onClose: (e:FormEvent) => void;
+  onClose: (e: FormEvent) => void;
 }
 
 const Modal: React.FC<ModalProps> = ({ children, onClose }) => {

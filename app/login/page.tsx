@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Typography } from "@mui/material";
 
 type Todo = {
-  _id: string;
+  id: string;
   email: string;
   password: string;
   ownername: string;
@@ -16,6 +16,7 @@ const LoginPage: React.FC = () => {
     email: "",
     password: "",
   });
+
   const [initialTodos, setInitialTodos] = useState<Todo[]>([]);
   const [mpp, setMpp] = useState(new Map());
   const [foundUser, setFoundUser] = useState<string | undefined>();
@@ -27,15 +28,14 @@ const LoginPage: React.FC = () => {
   const [hovered2, setHovered2] = useState(false);
   const [hovered3, setHovered3] = useState(false);
   useEffect(() => {
+    // http://20.204.209.69:8080/api/ownerData
     async function handleRouteChange() {
-      const response = await fetch(
-        "https://gp-backend-u5ty.onrender.com/api/ownerData/"
-      );
+      const response = await fetch("http://20.204.209.69:8080/api/ownerData");
       if (response.ok) {
         const data = await response.json();
         console.log(data);
         setInitialTodos(data);
-        setFoundUser(data[0]._id);
+        setFoundUser(data[0].id);
       }
     }
     handleRouteChange();
@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
     mpp.set(initialTodos[0]?.password, 1);
     if (mpp.get(formData.email) === 1 && mpp.get(formData.password) === 1) {
       router.push("/home");
-      document.cookie = `id=${initialTodos[0]._id}; max-age=3600; path=/; SameSite=None; Secure`;
+      document.cookie = `id=${initialTodos[0].id}; max-age=3600; path=/; SameSite=None; Secure`;
     } else {
       setMessage("Password or email is incorrect!");
       setColor("red");
@@ -79,9 +79,9 @@ const LoginPage: React.FC = () => {
           width: "100vw",
           backgroundColor: "#E1AD01",
           zIndex: 1,
-            // border: "2px solid red",
-            // paddingTop:"21vh",
-            // paddingLeft:"27vw"
+          // border: "2px solid red",
+          // paddingTop:"21vh",
+          // paddingLeft:"27vw"
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -280,25 +280,25 @@ const LoginPage: React.FC = () => {
           </form>
         </div>
         {showToast && (
-        //   <div
-        //     style={{
-        //       marginLeft: "auto",
-        //       marginRight: "auto",
-        //       marginTop: "1rem",
-        //       marginBottom: "4rem",
-        //       padding: "1rem",
-        //       borderRadius: "0.75rem",
-        //       backgroundColor: "transparent",
-        //       maxWidth: "60vw",
-        //       boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
-        //     }}
-        //   >
-            <Toast
-              message={message}
-              bgColor={color}
-              onClose={() => setShowToast(false)}
-            />
-        //   </div>
+          //   <div
+          //     style={{
+          //       marginLeft: "auto",
+          //       marginRight: "auto",
+          //       marginTop: "1rem",
+          //       marginBottom: "4rem",
+          //       padding: "1rem",
+          //       borderRadius: "0.75rem",
+          //       backgroundColor: "transparent",
+          //       maxWidth: "60vw",
+          //       boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
+          //     }}
+          //   >
+          <Toast
+            message={message}
+            bgColor={color}
+            onClose={() => setShowToast(false)}
+          />
+          //   </div>
         )}
       </div>
     </>

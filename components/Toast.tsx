@@ -1,5 +1,5 @@
 // components/Toast.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 interface ToastProps {
   message: string;
@@ -20,7 +20,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, bgColor }) => {
   }, [onClose]);
 
   const toastStyle: React.CSSProperties = {
-    backgroundColor: bgColor || 'transparent',
+    backgroundColor: bgColor || "transparent",
   };
 
   return (
@@ -32,7 +32,9 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, bgColor }) => {
           role="alert"
           style={toastStyle}
         >
-          <div className="text-sm font-normal text-white font-bold">{message}</div>
+          <div className="text-sm font-normal text-white font-bold">
+            {message}
+          </div>
         </div>
       )}
     </div>

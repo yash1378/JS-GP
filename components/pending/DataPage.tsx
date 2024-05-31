@@ -3,20 +3,19 @@ import React, { useState, useEffect } from "react";
 import Modal from "@/components/Modal";
 import { useRouter } from "next/navigation";
 interface AdditionalData {
-  _id: string;
+  id: string;
   name: string;
-  number: number;
+  phone: number;
   college: string;
   date: string;
   handle: number;
-  __v: number;
   on: number;
   total: number;
 }
 
 // Type for data format
 interface StudentData {
-  _id: string;
+  id: string;
   name: string;
   phone: string;
   email: string;
@@ -24,7 +23,6 @@ interface StudentData {
   class: string;
   sub: string;
   mentor: string;
-  __v: number;
 }
 
 interface DataPageProps {
@@ -43,6 +41,7 @@ const DataPage: React.FC<DataPageProps> = ({
   const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([]);
   const [value, setValue] = useState(0);
   const router = useRouter();
+  //   console.log(data)
 
   // State variable to manage modal visibility
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -91,17 +90,17 @@ const DataPage: React.FC<DataPageProps> = ({
       setSelectedStudentIds([...selectedStudentIds, id]);
     }
     console.log(selectedRows);
-    console.log(selectedStudentIds)
+    console.log(selectedStudentIds);
   };
 
   // Handle mentor selection
-  const handleMentorSelect = (mentorName: string) => {
+  const handleMentorSelect = (mentor: string) => {
     console.log(selectedMentor);
-    console.log(mentorName);
-    if (selectedMentor === mentorName) {
+    console.log(mentor);
+    if (selectedMentor === mentor) {
       setSelectedMentor("");
     } else {
-      setSelectedMentor(mentorName);
+      setSelectedMentor(mentor);
     }
     console.log(selectedMentor);
   };
@@ -118,19 +117,16 @@ const DataPage: React.FC<DataPageProps> = ({
 
     try {
       // Send an API request to update mentor and students
-      const response = await fetch(
-        "https://gp-backend-u5ty.onrender.com/api/finalMentor",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            mentorName: selectedMentor,
-            studentIds: selectedStudentIds,
-          }),
-        }
-      );
+      const response = await fetch("http://52.190.11.22:80/api/finalMentor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mentorName: selectedMentor,
+          studentIds: selectedStudentIds,
+        }),
+      });
       console.log(selectedMentor);
       if (response.ok) {
         // Handle success
@@ -141,9 +137,7 @@ const DataPage: React.FC<DataPageProps> = ({
         setSelectedMentor("");
 
         // Fetch the latest data from the server
-        const response1 = await fetch(
-          "https://gp-backend-u5ty.onrender.com/api/data"
-        ); // Replace with your API URL
+        const response1 = await fetch("http://52.190.11.22:80/api/data"); // Replace with your API URL
         const updatedData = await response1.json();
         console.log(updatedData);
         // Update the 'data' prop by calling a parent function (if you have one)
@@ -165,10 +159,12 @@ const DataPage: React.FC<DataPageProps> = ({
   useEffect(() => {
     // Update the selectedStudentIds whenever selectedRows change
     const ids = data
-      .filter((item) => selectedRows.includes(item._id))
-      .map((item) => item._id);
+      .filter((item) => selectedRows.includes(item.id))
+      .map((item) => item.id);
     setSelectedStudentIds(ids);
   }, [selectedRows]);
+
+  //   console.log(data)
 
   return (
     <>
@@ -208,37 +204,45 @@ const DataPage: React.FC<DataPageProps> = ({
                 </tr>
               </thead>
               <tbody className="font-Damion-cursive">
-                {data
-                  .filter((item) => item.mentor === "") // Filter by mentor name being empty
-                  .map((item, index) => (
-                    <tr
-                      key={item._id}
-                      className={
-                        index % 2 === 0 ? "bg-black bg-opacity-20" : ""
-                      }
-                    >
-                      <td
-                        className="px-6 py-4"
-                        style={{ border: "2px solid red" }}
+                {data?.length > 0 ? (
+                  data
+                    .filter((item) => item.mentor === "") // Filter by mentor name being empty
+                    .map((item, index) => (
+                      <tr
+                        key={item.id}
+                        className={
+                          index % 2 === 0 ? "bg-black bg-opacity-20" : ""
+                        }
                       >
-                        <input
-                          type="checkbox"
-                          checked={selectedRows.includes(item._id)}
-                          onChange={() => {
-                            toggleSelect(item._id);
-                            console.log(item._id);
-                          }}
-                        />
-                      </td>
-                      <td className="text-x text-white px-6 py-4">
-                        {item.name}
-                      </td>
-                      <td className="text-white px-6 py-4">{item.phone}</td>
-                      <td className="text-white px-6 py-4">{item.date}</td>
-                      <td className="text-white px-6 py-4">{item.sub}</td>
-                      <td className="text-white px-6 py-4">{item.class}</td>
-                    </tr>
-                  ))}
+                        <td
+                          className="px-6 py-4"
+                        //   style={{ border: "2px solid red" }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedRows.includes(item.id)}
+                            onChange={() => {
+                              toggleSelect(item.id);
+                              console.log(item.id);
+                            }}
+                          />
+                        </td>
+                        <td className="text-x text-white px-6 py-4">
+                          {item.name}
+                        </td>
+                        <td className="text-white px-6 py-4">{item.phone}</td>
+                        <td className="text-white px-6 py-4">{item.date}</td>
+                        <td className="text-white px-6 py-4">{item.sub}</td>
+                        <td className="text-white px-6 py-4">{item.class}</td>
+                      </tr>
+                    ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center py-4">
+                      No data available
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -274,40 +278,48 @@ const DataPage: React.FC<DataPageProps> = ({
                 </tr>
               </thead>
               <tbody className="font-Damion-cursive text-base">
-                {additionalData.map((item, index) => (
-                  <tr
-                    key={item._id}
-                    className={index % 2 === 0 ? "bg-black bg-opacity-20" : ""}
-                  >
-                    <td className="text-white text-x text-white px-6 py-4">
-                      {item.name}
-                    </td>
-                    <td className="text-white px-6 py-4">{item.on}</td>
-                    <td className="text-white px-6 py-4">
-                      {item.handle - item.on >= 1 ? ( // Check if the difference is greater than or equal to 1
-                        item.handle - item.on
-                      ) : (
-                        <span>Not available</span> // Display a message if not available
-                      )}
-                    </td>
-                    <td className="text-white px-6 py-4">
-                      {item.handle - item.on < 1 ? ( // Check if the condition is met
-                        <input
-                          className="cursor-pointer"
-                          type="checkbox"
-                          disabled // Disable the checkbox when condition is not met
-                        />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          className="cursor-pointer"
-                          checked={selectedMentor === item.name}
-                          onChange={() => handleMentorSelect(item.name)}
-                        />
-                      )}
+                {additionalData?.length >0 ?(
+                additionalData.map((item, index) => (
+                    <tr
+                      key={item.id}
+                      className={index % 2 === 0 ? "bg-black bg-opacity-20" : ""}
+                    >
+                      <td className="text-white text-x text-white px-6 py-4">
+                        {item.name}
+                      </td>
+                      <td className="text-white px-6 py-4">{item.on}</td>
+                      <td className="text-white px-6 py-4">
+                        {item.handle - item.on >= 1 ? ( // Check if the difference is greater than or equal to 1
+                          item.handle - item.on
+                        ) : (
+                          <span>Not available</span> // Display a message if not available
+                        )}
+                      </td>
+                      <td className="text-white px-6 py-4">
+                        {item.handle - item.on < 1 ? ( // Check if the condition is met
+                          <input
+                            className="cursor-pointer"
+                            type="checkbox"
+                            disabled // Disable the checkbox when condition is not met
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            className="cursor-pointer"
+                            checked={selectedMentor === item.name}
+                            onChange={() => handleMentorSelect(item.name)}
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ):(
+                    <tr>
+                    <td colSpan={4} className="text-center py-4">
+                      No data available
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

@@ -1,18 +1,18 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Modal from "@/components/Modal";
 import { useRouter } from "next/navigation";
 
 interface Student {
-    _id: string;
-    name: string;
-    phone: string;
-    email: string;
-    date: string;
-    class: string;
-    sub: string;
-    mentor: string;
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  class: string;
+  sub: string;
+  mentor: string;
 }
 
 interface ParentComponentProps {
@@ -62,19 +62,17 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
   const handleSuggestionClick = (student: Student) => {
     setSearchText(student.phone);
     setSelectedMentor(student.mentor); // Assuming mentor is the correct property name
-    setSelectedIds([student.phone]); // Assuming phone is the unique identifier for a student
+    setSelectedIds([student.id]); // Assuming phone is the unique identifier for a student
     setSelectedmentors([student.mentor]);
   };
 
-  const handleCheckboxChange = (phone: string, ment: string) => {
-    if (selectedIds.includes(phone)) {
-      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== phone));
-      setSelectedmentors(
-        selectedmentors.filter((mentor) => mentor !== ment)
-      );
+  const handleCheckboxChange = (id: string, ment: string) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+      setSelectedmentors(selectedmentors.filter((mentor) => mentor !== ment));
     } else {
-      setSelectedIds([...selectedIds, phone]);
-      const selectedStudent = dat.find((student) => student.phone === phone);
+      setSelectedIds([...selectedIds, id]);
+      const selectedStudent = dat.find((student) => student.id === id);
       if (selectedStudent) {
         setSelectedmentors([...selectedmentors, selectedStudent.mentor]);
       }
@@ -82,10 +80,11 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
   };
 
   const handleDeleteClick = async () => {
-    console.log(selectedIds)
-    console.log(selectedmentors)
+    console.log(selectedIds);
+    console.log(selectedmentors);
+
     try {
-      const response = await fetch("https://gp-backend-u5ty.onrender.com/api/delete", {
+      const response = await fetch("http://52.190.11.22:80/api/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +97,7 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
 
       if (response.ok) {
         setMessage("Selected rows have been Deleted successfully.");
-        const response1 = await fetch("https://gp-backend-u5ty.onrender.com/api/data");
+        const response1 = await fetch("http://52.190.11.22:80/api/data");
         const updatedData = await response1.json();
         if (updatedData) {
           setDat(updatedData);
@@ -125,10 +124,16 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
           <b>Delete Page</b>
         </h1>
         <div>
-          <label htmlFor="default-search" className="mb-2 text-base font-Damion-cursive text-gray-900 sr-only dark:text-white">
+          <label
+            htmlFor="default-search"
+            className="mb-2 text-base font-Damion-cursive text-gray-900 sr-only dark:text-white"
+          >
             Search
           </label>
-          <div className="relative mt-3 w-[80vw] mx-auto" style={{ position: "sticky", top: "0" }}>
+          <div
+            className="relative mt-3 w-[80vw] mx-auto"
+            style={{ position: "sticky", top: "0" }}
+          >
             <input
               type="search"
               id="default-search"
@@ -176,44 +181,66 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
                 <table className="min-w-full text-base text-white sm:table">
                   <thead className="bg-gray-800 text-base uppercase font-Damion-cursive">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left tracking-wider"
+                      >
                         Select
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left tracking-wider"
+                      >
                         No.
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left tracking-wider"
+                      >
                         Name
                       </th>
-                      <                      th scope="col" className="px-6 py-3 text-left tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left tracking-wider"
+                      >
                         Phone No
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-gray-800 text-base font-Damion-cursive">
-                    {dat.map((item, index) => (
-                      <tr
-                        key={item.phone} // Assuming phone is the unique identifier for a student
-                        className={
-                          index % 2 === 0 ? "bg-black bg-opacity-20" : ""
-                        }
-                      >
-                        <td className="px-6 py-2">
-                          <input
-                            type="checkbox"
-                            onChange={() => handleCheckboxChange(item.phone, item.mentor)}
-                            checked={selectedIds.includes(item.phone)}
-                          />
-                        </td>
-                        <td className="pl-4">{index + 1}</td>
-                        <td className="px-6 py-2 sm:py-4 sm:px-2 whitespace-nowrap">
-                          <span className="sm:block">{item.name}</span>
-                        </td>
-                        <td className="px-6 py-2 sm:py-4 sm:px-2 whitespace-nowrap">
-                          <span className="sm:block">{item.phone}</span>
+                    {dat?.length > 0 ? (
+                      dat.map((item, index) => (
+                        <tr
+                          key={item.phone} // Assuming phone is the unique identifier for a student
+                          className={
+                            index % 2 === 0 ? "bg-black bg-opacity-20" : ""
+                          }
+                        >
+                          <td className="px-6 py-2">
+                            <input
+                              type="checkbox"
+                              onChange={() =>
+                                handleCheckboxChange(item.id, item.mentor)
+                              }
+                              checked={selectedIds.includes(item.id)}
+                            />
+                          </td>
+                          <td className="pl-4">{index + 1}</td>
+                          <td className="px-6 py-2 sm:py-4 sm:px-2 whitespace-nowrap">
+                            <span className="sm:block">{item.name}</span>
+                          </td>
+                          <td className="px-6 py-2 sm:py-4 sm:px-2 whitespace-nowrap">
+                            <span className="sm:block">{item.phone}</span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} className="text-center py-4">
+                          No data available
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -276,4 +303,3 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
 }
 
 export default ParentComponent;
-

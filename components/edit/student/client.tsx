@@ -1,57 +1,55 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Toast from "@/components/Toast";
 import Modal from "@/components/Modal";
 
-
 interface Student {
-    _id: string;
-    name: string;
-    phone: string;
-    email: string;
-    date: string;
-    class: string;
-    sub: string;
-    mentor: string;
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  class: string;
+  sub: string;
+  mentor: string;
 }
 
 interface Mentor {
-    _id: string;
-    name: string;
-    number: number;
-    college: string;
-    date: string;
-    handle: number;
-    __v: number;
-    on: number;
-    total: number;
-  }
+  id: string;
+  name: string;
+  number: number;
+  college: string;
+  date: string;
+  handle: number;
+  on: number;
+  total: number;
+}
 
 interface Props {
   data: Student[];
   d: Mentor[];
-  params:{phone:string};
+  params: { phone: string };
 }
 
-const Student: React.FC<Props> = ({ data, d,params }) => {
+const Student: React.FC<Props> = ({ data, d, params }) => {
   const [message, setMessage] = useState<string>("");
   const [color, setColor] = useState<string>("");
   const [showToast, setShowToast] = useState<boolean>(false);
   const [studentName, setStudentName] = useState<string>("");
   const [studentEmail, setStudentEmail] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>(""); 
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
   const [newmentor, setNewMentor] = useState<string>("");
 
-//   const { phone } = router.query as { phone: string };
+  //   const { phone } = router.query as { phone: string };
   const phone = params.phone;
 
   const back = () => {
     // router.replace("/registration");
-    window.location.href="/edit";
+    window.location.href = "/edit";
   };
 
   const toast = async () => {
@@ -96,7 +94,7 @@ const Student: React.FC<Props> = ({ data, d,params }) => {
     closeModal(e);
 
     try {
-      const response = await fetch(`https://gp-backend-u5ty.onrender.com/student/${phone}`, {
+      const response = await fetch(`http://52.190.11.22:80/student/${phone}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,8 +137,11 @@ const Student: React.FC<Props> = ({ data, d,params }) => {
   return (
     <>
       <body className="bg-gray-700 pt-1 ">
-        <div className="mx-auto mt-8 p-4 rounded-lg bg-gray-800 dark:bg-gray-800" style={{ maxWidth: "60vw" }}>
-        <form>
+        <div
+          className="mx-auto mt-8 p-4 rounded-lg bg-gray-800 dark:bg-gray-800"
+          style={{ maxWidth: "60vw" }}
+        >
+          <form>
             <div className="mb-4">
               <label
                 htmlFor="studentName"
@@ -175,7 +176,7 @@ const Student: React.FC<Props> = ({ data, d,params }) => {
               >
                 {/* <option value="">Select a Mentor</option> */}
                 {d.map((mentor) => (
-                  <option key={mentor._id} value={mentor.name}>
+                  <option key={mentor.id} value={mentor.name}>
                     {mentor.name}
                   </option>
                 ))}
@@ -269,7 +270,7 @@ const Student: React.FC<Props> = ({ data, d,params }) => {
                 className="text-white bg-blue-400 dark:bg-blue-500 font-Damion-cursive rounded-lg text-sm px-5 py-2.5 text-center 
                  bg-blue-400 dark:bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-600"
                 // disabled={!isButtonEnabled}
-                onClick={()=>back()}
+                onClick={() => back()}
               >
                 Go Back
               </button>
@@ -278,9 +279,9 @@ const Student: React.FC<Props> = ({ data, d,params }) => {
               <>
                 <div
                   className=" fixed top-0 left-0 z-10 w-full h-full bg-black opacity-70 transition-opacity duration-300 ease-in-out"
-                  onClick={()=>closeModal} // Close the sidebar when overlay is clicked
+                  onClick={() => closeModal} // Close the sidebar when overlay is clicked
                 ></div>
-                <Modal onClose={()=>closeModal}>
+                <Modal onClose={() => closeModal}>
                   <div className="p-6 text-center">
                     <svg
                       className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
@@ -310,13 +311,13 @@ const Student: React.FC<Props> = ({ data, d,params }) => {
             )}
           </form>
         </div>
-          {showToast && (
-            <Toast
-              message={message}
-              bgColor={color}
-              onClose={() => setShowToast(false)}
-            />
-          )}
+        {showToast && (
+          <Toast
+            message={message}
+            bgColor={color}
+            onClose={() => setShowToast(false)}
+          />
+        )}
       </body>
     </>
   );

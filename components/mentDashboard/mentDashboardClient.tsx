@@ -1,32 +1,27 @@
-'use client'
+"use client";
 
-import { Suspense } from 'react'
-import Loading from '@/app/loading'
-import ClientButton from '../button'
+import { Suspense } from "react";
+import Loading from "@/app/loading";
+import ClientButton from "../button";
 // // as these are server components in this caching doesn't work
 // async function getData() {
-//   const res = await fetch('https://gp-backend-u5ty.onrender.com/api/mentorData/',{
+//   const res = await fetch('http://20.204.209.69:8080/api/mentorData/',{
 //     next:{
 //       revalidate:0
 //     }
 //   })
 
-
 //   if (!res.ok) {
 //     // This will activate the closest `error.js` Error Boundary
 //     throw new Error('Failed to fetch data')
 //   }
- 
+
 //   return res.json()
 // }
 
-const DataPage=({children}:{
-    children:React.ReactNode
-}) => {
-
+const DataPage = ({ children }: { children: React.ReactNode }) => {
   // const data  = await getData();
   // console.log(data)
-
 
   return (
     <>
@@ -37,8 +32,7 @@ const DataPage=({children}:{
         {children}
         {/* <Suspense fallback={<Loading/>}> */}
 
-          
-          {/* <div className="flex flex-col w-[80vw] h-[85vh]  mt-6 ">
+        {/* <div className="flex flex-col w-[80vw] h-[85vh]  mt-6 ">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow-2xl overflow-hidden sm:rounded-lg">
@@ -83,7 +77,7 @@ const DataPage=({children}:{
                   <tbody className="bg-gray-800 text-base font-Damion-cursive">
                     {data.map((item:any, index:number) => (
                       <tr
-                        key={item._id}
+                        key={item.id}
                         className={
                           index % 2 === 0 ? "bg-black bg-opacity-20" : ""
                         }
@@ -114,9 +108,9 @@ const DataPage=({children}:{
         {/* </Suspense> */}
       </div>
 
-      <ClientButton/>
+      <ClientButton />
     </>
   );
-}
+};
 
 export default DataPage;
