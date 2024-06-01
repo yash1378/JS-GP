@@ -196,6 +196,25 @@ const Home: React.FC = () => {
             >
               New Enrolls
             </button>
+            <button
+              style={{
+                margin: "1rem",
+                padding: "1rem 2rem",
+                border: "2px solid #333",
+                borderRadius: "8px",
+                backgroundColor: isHovered ? "#0052cc" : "#0070f3",
+                color: "white",
+                textDecoration: "none",
+                fontSize: "1.2rem",
+                cursor: "pointer",
+                transition: "background-color 0.3s ease",
+              }}
+              onClick={() => router.push("/mentdelete")}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              Delete Mentor
+            </button>
           </div>
         </main>
         {/* Footer content */}
