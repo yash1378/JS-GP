@@ -96,7 +96,7 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
       });
 
       if (response.ok) {
-        setMessage("Selected rows have been Deleted successfully.");
+        setMessage("All Valid rows have been Deleted successfully.");
         const response1 = await fetch("https://js-gp-backend.onrender.com/api/data");
         const updatedData = await response1.json();
         if (updatedData) {
