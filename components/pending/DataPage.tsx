@@ -56,23 +56,7 @@ const DataPage: React.FC<DataPageProps> = ({
     setIsModalVisible(false);
   };
 
-  // Function to toggle selection for a specific row
-  //   const toggleSelect = (id:string) => {
-  //     if (selectedRows.includes(id)) {
-  //       setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
-  //     } else {
-  //       setSelectedRows([...selectedRows, id]);
-  //     }
-  //   };
-  // Function to toggle selection for a specific row
-  //   const toggleSelect = async(id:string) => {
-  //     console.log(id);
 
-  //     // setSelectedRows(id);
-  //     // setSelectedStudentIds(id); // Assuming id represents student ID
-
-  //     console.log(selectedRows);
-  //   };
 
   const toggleSelect = (id: string) => {
     // Check if the ID is already selected
