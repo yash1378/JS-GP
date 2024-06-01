@@ -117,7 +117,9 @@ const DataPage: React.FC<DataPageProps> = ({
 
     try {
       // Send an API request to update mentor and students
-      const response = await fetch("http://52.190.11.22:80/api/finalMentor", {
+      console.log(selectedMentor)
+      console.log(selectedStudentIds)
+      const response = await fetch("https://js-gp-backend.onrender.com/api/finalMentor", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +139,7 @@ const DataPage: React.FC<DataPageProps> = ({
         setSelectedMentor("");
 
         // Fetch the latest data from the server
-        const response1 = await fetch("http://52.190.11.22:80/api/data"); // Replace with your API URL
+        const response1 = await fetch("https://js-gp-backend.onrender.com/api/data"); // Replace with your API URL
         const updatedData = await response1.json();
         console.log(updatedData);
         // Update the 'data' prop by calling a parent function (if you have one)

@@ -84,7 +84,7 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
     console.log(selectedmentors);
 
     try {
-      const response = await fetch("http://52.190.11.22:80/api/delete", {
+      const response = await fetch("https://js-gp-backend.onrender.com/api/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
 
       if (response.ok) {
         setMessage("Selected rows have been Deleted successfully.");
-        const response1 = await fetch("http://52.190.11.22:80/api/data");
+        const response1 = await fetch("https://js-gp-backend.onrender.com/api/data");
         const updatedData = await response1.json();
         if (updatedData) {
           setDat(updatedData);

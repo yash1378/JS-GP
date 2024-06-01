@@ -42,7 +42,7 @@ const Registration: React.FC = () => {
   const fetchMentors = async () => {
     try {
       const response = await fetch(
-        "http://52.190.11.22:80/api/mentorData"
+        "https://js-gp-backend.onrender.com/api/mentorData"
       );
       if (response.ok) {
         const data: Mentor[] = await response.json();
@@ -66,7 +66,7 @@ const Registration: React.FC = () => {
     }
 
     try {
-        const response = await fetch("http://52.190.11.22:80/api/update",{
+        const response = await fetch("https://js-gp-backend.onrender.com/api/update",{
           method: "POST",
           headers: {
             "Content-Type": "application/json",

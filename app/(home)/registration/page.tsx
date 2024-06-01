@@ -86,7 +86,7 @@ const Registration: React.FC = () => {
     };
     try {
       //   const response = await fetch("http://20.204.209.69:8080/", {
-      const response = await fetch("http://52.190.11.22:80/", {
+      const response = await fetch("https://js-gp-backend.onrender.com/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

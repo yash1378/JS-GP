@@ -26,7 +26,7 @@ interface Mentor {
 
 // as these are server components in this caching doesn't work
 async function getData() {
-  const res = await fetch("http://52.190.11.22:80/api/data/", {
+  const res = await fetch("https://js-gp-backend.onrender.com/api/data/", {
     next: {
       revalidate: 0,
     },
@@ -42,7 +42,7 @@ async function getData() {
 
 // as these are server components in this caching doesn't work
 async function getAdditionalData() {
-  const response2 = await fetch("http://52.190.11.22:80/api/mentorData", {
+  const response2 = await fetch("https://js-gp-backend.onrender.com/api/mentorData", {
     next: {
       revalidate: 0,
     },

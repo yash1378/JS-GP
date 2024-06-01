@@ -98,7 +98,7 @@ function Enroll({ data, d }: EnrollmentProps) {
 
     closeModal(e);
     try {
-      const response = await fetch("http://52.190.11.22:80/renrollment", {
+      const response = await fetch("https://js-gp-backend.onrender.com/renrollment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

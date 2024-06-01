@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
     // Fetch mentor data from the server when the component mounts
     const fetchMentorData = async () => {
       try {
-        const response = await fetch("http://52.190.11.22:80/api/mentorData");
+        const response = await fetch("https://js-gp-backend.onrender.com/api/mentorData");
         // const response = await fetch("http://localhost:5000/api/mentorData");
         const data = await response.json();
         setMentorData(data);

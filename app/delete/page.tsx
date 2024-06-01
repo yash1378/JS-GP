@@ -17,7 +17,7 @@ async function fetchData() {
   // Fetch data from API
 
   //   await new Promise(resolve => setTimeout(resolve, 5000));
-  const response = await fetch("http://52.190.11.22:80/api/data", {
+  const response = await fetch("https://js-gp-backend.onrender.com/api/data", {
     next: {
       revalidate: 0,
     },
