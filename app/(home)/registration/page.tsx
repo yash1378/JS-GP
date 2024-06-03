@@ -348,9 +348,9 @@ const Registration: React.FC = () => {
               />
             </div>
             {/* Responsive styling for Class, Subscription Type, and Reenrollment */}
-            <div className="mb-4 md:flex md:space-x-2">
+            <div className="mb-4 md:flex md:space-x-2 justify-between">
               {/* Class Field */}
-              <div className="w-full md:w-1/3 mb-2 md:mb-0">
+              <div className="w-full md:w-1/2 mb-2 md:mb-0">
                 <label
                   htmlFor="selectedClass"
                   className="block mb-2 text-base font-Damion-cursive text-white dark:text-white"
@@ -439,7 +439,7 @@ const Registration: React.FC = () => {
               </div>
 
               {/* Subscription Type Field */}
-              <div className="w-full md:w-1/3 mb-2 md:mb-0">
+              <div className="w-full md:w-1/2 mb-2 md:mb-0">
                 <label
                   htmlFor="subscriptionType"
                   className="block mb-2 text-base font-Damion-cursive text-white dark:text-white"
@@ -527,12 +527,15 @@ const Registration: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-4 md:flex md:space-x-2">
+            <div
+              className="mb-2 md:flex md:space-x-2 justify-between"
+              //   style={{ border: "2px solid red" }}
+            >
               {/* Class Field */}
-              <div className="w-full md:w-1/3 mb-2 md:mb-0 mr-10">
+              <div className="w-full md:w-1/3 mb-2 md:mb-0">
                 <button
                   id="classButton"
-                  className={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-base font-Damion-cursive text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 ${
+                  className={`relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-base font-Damion-cursive text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 ${
                     selectedClass ? "has-value" : ""
                   }`}
                   type="submit"
@@ -545,7 +548,7 @@ const Registration: React.FC = () => {
               </div>
 
               {/* Subscription Type Field */}
-              <div className="w-full md:w-1/3 mb-2 md:mb-0">
+              <div className="w-full md:w-1/3 mb-2 md:mb-0 flex justify-end">
                 <button
                   id="subscriptionTypeButton"
                   onClick={() => router.push("/home")}
@@ -559,6 +562,8 @@ const Registration: React.FC = () => {
                   </span>
                 </button>
               </div>
+              {/* </div> */}
+
               {isModalVisible && (
                 <>
                   <div

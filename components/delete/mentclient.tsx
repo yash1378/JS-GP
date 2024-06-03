@@ -4,6 +4,7 @@ import Head from "next/head";
 import Modal from "@/components/Modal";
 import { useRouter } from "next/navigation";
 
+
 interface mentor {
     id: string;
     name: string;
@@ -117,7 +118,9 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
       <Head>
         <title>Your Page Title</title>
       </Head>
+
       <div className="flex flex-col items-center bg-gray-700 w-screen min-h-screen mt-0">
+
         <h1 className="text-white text-4xl font-Damion-cursive mt-1">
           <b>Delete Page</b>
         </h1>
@@ -286,7 +289,7 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
       )}
       <button
         onClick={() => {
-          router.push("/registration");
+          router.push("/home");
         }}
         className="fixed bottom-2 right-5"
       >

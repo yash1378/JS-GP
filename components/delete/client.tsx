@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Modal from "@/components/Modal";
 import { useRouter } from "next/navigation";
+import Toast from "../Toast";
 
 interface Student {
   id: string;
@@ -30,13 +31,15 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [studentData, setStudentData] = useState<Student[]>(data);
   const [selectedMentor, setSelectedMentor] = useState<string>("");
-
+  const [mess, setMess] = useState("");
+  const [showToast, setshowToast] = useState(false);
+  const [color, setColor] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     // Fetch data from the API and set it to studentData
     // ...
-  }, [data]);
+  }, [dat]);
 
   const openModal = () => {
     setIsModalVisible(true);
@@ -57,6 +60,13 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
 
     setSearchText(value);
     setSuggestions(filteredNames);
+  };
+
+  const toast = async () => {
+    setshowToast(true);
+    setTimeout(() => {
+      setshowToast(false); // Hide the toast after 3 seconds
+    }, 3000);
   };
 
   const handleSuggestionClick = (student: Student) => {
@@ -96,7 +106,11 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
       });
 
       if (response.ok) {
-        setMessage("All Valid rows have been Deleted successfully.");
+        console.log("Form data submitted successfully!");
+        setMess("Valid Rows Deleted Successfully");
+        setColor("green");
+        toast();
+        // setMessage("All Valid rows have been Deleted successfully.");
         const response1 = await fetch("https://js-gp-backend.onrender.com/api/data");
         const updatedData = await response1.json();
         if (updatedData) {
@@ -106,7 +120,10 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
         setSelectedMentor("");
         setSelectedDate(undefined);
       } else {
-        setMessage("Failed to Delete selected rows.");
+        // setMessage("Failed to Delete selected rows.");
+        setMess("Failed to Delete the Data");
+        setColor("red");
+        toast();
       }
     } catch (error) {
       console.error("Error Deleting rows:", error);
@@ -132,12 +149,12 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
           </label>
           <div
             className="relative mt-3 w-[80vw] mx-auto"
-            style={{ position: "sticky", top: "0" }}
+            style={{ position: "sticky", top: "0",display:"flex" }}
           >
             <input
               type="search"
               id="default-search"
-              className="block w-[79vw] p-4 pl-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-[80vw] p-4 pl-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search Student by Phone No..."
               required
               value={searchText}
@@ -166,12 +183,25 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
                 )}
               </div>
             )}
+            <button
+              onClick={() => {
+                router.push("/registration");
+              }}
+                className="fixed top-13 right-5 w-[7vw]"
+            //   style={{border:"2px solid red"}}
+            >
+              <span className="relative h-[5.5vh] inline-flex items-center justify-center p-0.5 mb-0 mr-2 overflow-hidden text-base font-Damion-cursive text-white rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                <span className="relative px-6 py-3.5 transition-all ease-in duration-75 bg-black dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                  Go Back
+                </span>
+              </span>
+            </button>
           </div>
         </div>
         <div className="flex flex-col w-[80vw] h-[75vh] mt-4">
           <button
             onClick={openModal}
-            className="px-4 py-2 mb-4 text-white w-[79vw] bg-blue-500 rounded hover:bg-blue-600"
+            className="px-4 py-2 mb-4 text-white w-[80vw] bg-blue-500 rounded hover:bg-blue-600"
           >
             Delete Selected
           </button>
@@ -286,18 +316,14 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
           </Modal>
         </>
       )}
-      <button
-        onClick={() => {
-          router.push("/registration");
-        }}
-        className="fixed bottom-2 right-5"
-      >
-        <span className="relative inline-flex items-center justify-center p-0.5 mb-0 mr-2 overflow-hidden text-base font-Damion-cursive text-white rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-black dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-            Go Back
-          </span>
-        </span>
-      </button>
+
+      {showToast && (
+        <Toast
+          message={mess}
+          bgColor={color}
+          onClose={() => setshowToast(false)}
+        />
+      )}
     </div>
   );
 }

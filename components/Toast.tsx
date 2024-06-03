@@ -32,7 +32,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, bgColor }) => {
           role="alert"
           style={toastStyle}
         >
-          <div className="text-sm font-normal text-white font-bold">
+          <div className="text-l font-bold text-white font-bold">
             {message}
           </div>
         </div>

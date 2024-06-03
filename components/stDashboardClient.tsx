@@ -29,6 +29,7 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
   const [searchText, setSearchText] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Student[]>([]);
   const [isSearchBoxEmpty, setIsSearchBoxEmpty] = useState<boolean>(true);
+  const [isHover,setIsHover]=useState<boolean>(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -123,30 +124,35 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
 
   return (
     <>
+      {isSidebarOpen && (
+        <div
+          className=" fixed top-0 left-0 z-30 w-full h-full bg-black opacity-70 transition-opacity duration-300 ease-in-out"
+          onClick={() => {
+            setIsSidebarOpen(false);
+            toggleSidebar();
+          }} // Close the sidebar when overlay is clicked
+        ></div>
+      )}
       <div
-        className="w-20 bg-zinc-800 z-100 absolute"
-        style={{ height: "100%" }}
+        className="w-20  bg-zinc-800 z-100000 absolute left-0 top-0"
+        style={{ height: "100%", boxShadow: "6px 6px 10px rgba(0, 0, 0, 0.5)" }}
       >
         <FaBars
           style={{
-            color: "white",
-            height: "45px",
-            width: "45px",
+            color: isHover ? "white" : "white",
+            height: isHover ? "55px" : "45px", // Increase size on hover
+            width: isHover ? "55px" : "45px", // Increase size on hover
+            transition: "all 0.2s ease", // Add transition effect
             position: "absolute",
             left: "13px",
             top: "13px",
             cursor: "pointer",
           }}
           onClick={toggleSidebar}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
         />
       </div>
-
-      {isSidebarOpen && (
-        <div
-          className="fixed top-0 left-0 z-30 w-full h-full bg-black opacity-70 transition-opacity duration-300 ease-in-out"
-          onClick={() => setIsSidebarOpen(false)}
-        ></div>
-      )}
 
       <div className="flex">
         <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />

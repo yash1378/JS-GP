@@ -27,9 +27,12 @@ export default async function Trial() {
       </div>
     );
   };
+
+
   return (
     <>
       <div className="display-flex justify-center">
+
         {/* <Client/> 
             <Suspense fallback={<div>Loading...</div>}><Server/></Suspense> */}
         <Client>
