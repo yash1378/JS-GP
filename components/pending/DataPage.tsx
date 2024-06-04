@@ -190,7 +190,7 @@ const DataPage: React.FC<DataPageProps> = ({
                 </tr>
               </thead>
               <tbody className="font-Damion-cursive">
-                {data?.length > 0 ? (
+                {data !== null ? (
                   data
                     .filter((item) => item.mentor === "") // Filter by mentor name being empty
                     .map((item, index) => (
@@ -264,7 +264,7 @@ const DataPage: React.FC<DataPageProps> = ({
                 </tr>
               </thead>
               <tbody className="font-Damion-cursive text-base">
-                {additionalData?.length >0 ?(
+                {additionalData !== null ?(
                 additionalData.map((item, index) => (
                     <tr
                       key={item.id}

@@ -71,7 +71,7 @@ async function Server() {
                   </tr>
                 </thead>
                 <tbody className="bg-gray-800 text-base font-Damion-cursive">
-                  {data?.length > 0 ? (
+                  {data !== null ? (
                     data
                     .filter((item: any) => item.sub === "Premium")
                     .map((item: any, index: number) => (
@@ -161,7 +161,7 @@ async function Server() {
                   </tr>
                 </thead>
                 <tbody className="bg-gray-800 text-base font-Damion-cursive">
-                  {data?.length > 0 ? (
+                  {data !== null ? (
                     data
                     .filter((item: any) => item.sub === "Normal")
                     .map((item: any, index: number) => (

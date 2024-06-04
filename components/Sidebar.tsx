@@ -162,7 +162,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
         {/* Dropdown Content */}
         {isDropdownOpen && (
           <div className="absolute mt-1 w-full bg-zinc-700 text-white rounded-lg py-2 text-left z-70 hover:bg-zinc-800">
-            {mentorData?.length > 0 ? (
+            {mentorData !== null ? (
             mentorData.map((mentor: any) => (
                 <button
                   key={mentor.id}

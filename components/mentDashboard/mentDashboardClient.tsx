@@ -75,7 +75,7 @@ const DataPage: React.FC<ParentProps> = ({ data}) => {
                   </tr>
                 </thead>
                 <tbody className="bg-gray-800 text-base font-Damion-cursive">
-                  {data?.length > 0 ? (
+                  {data !== null ? (
                     data.map((item: any, index: number) => (
                       <tr
                         key={item.id}
