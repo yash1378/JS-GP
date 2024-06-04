@@ -39,15 +39,17 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const filteredNames = data.filter(
-      (student, index, self) =>
-        student.phone.toLowerCase().startsWith(value.toLowerCase()) &&
-        index === self.findIndex((s) => s.phone === student.phone)
-    );
-
+    if(data!==null){
+        const filteredNames = data.filter(
+            (student, index, self) =>
+              student.phone.toLowerCase().startsWith(value.toLowerCase()) &&
+              index === self.findIndex((s) => s.phone === student.phone)
+          );
+          setSuggestions(filteredNames);
+    }
     setSearchText(value);
-    setSuggestions(filteredNames);
     setIsSearchBoxEmpty(value.trim() === "");
+
   };
 
   const handleSuggestionClick = (student: Student) => {
@@ -178,12 +180,12 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
             value={searchText}
             onChange={handleSearchChange}
           />
-          {searchText.length > 0 && (
+          {searchText !== null && (
             <div
               className="suggestions text-white absolute z-50 top-[6vh] w-[84vw] bg-gray-600"
               style={{ maxHeight: "20vh", overflowY: "auto", zIndex: 50 }}
             >
-              {suggestions.length > 0 && (
+              {suggestions !== null && (
                 <ul>
                   {suggestions.map((student, index) => (
                     <li
@@ -287,7 +289,8 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
                     </tr>
                   </thead>
                   <tbody className="bg-gray-800">
-                    {final.map((item, index) => (
+                  {final !== null ? (
+                    final.map((item, index) => (
                       <tr
                         key={item.id}
                         className={`text-base ${
@@ -317,7 +320,15 @@ const StDashboardClient: React.FC<DataPageProps> = ({ data }) => {
                           <span className="sm:block">{item.email}</span>
                         </td>
                       </tr>
-                    ))}
+
+                    ))
+                  ):(
+                    <tr>
+                    <td colSpan={8} className="text-center py-4">
+                      No data available
+                    </td>
+                  </tr>
+                  )}
                   </tbody>
                 </table>
               </div>

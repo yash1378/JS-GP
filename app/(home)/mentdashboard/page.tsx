@@ -127,7 +127,7 @@ const DataPage: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-gray-800 text-base font-Damion-cursive">
-                      {data.length > 0 ? (
+                      {data !== null ? (
                         data.map((item, index) => (
                           <tr
                             key={item.id}

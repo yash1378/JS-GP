@@ -78,7 +78,7 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
       .filter((item) => new Date(item.date) <= today)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    if (studentData.length > 0) {
+    if (studentData !== null) {
       const mostRecentStudent = studentData[0];
       setStudentName(mostRecentStudent.name);
       setStudentEmail(mostRecentStudent.email);
