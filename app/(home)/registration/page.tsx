@@ -492,11 +492,11 @@ const Registration: React.FC = () => {
                         className="block px-4 py-0.5 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         onClick={(e) => {
                           e.preventDefault();
-                          setSubscriptionType("Type A");
+                          setSubscriptionType("Premium");
                           toggleDropdown("subscriptionType");
                         }}
                       >
-                        Type A
+                        Premium
                       </button>
                     </li>
                     <li>
@@ -504,23 +504,11 @@ const Registration: React.FC = () => {
                         className="block px-4 py-0.5 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         onClick={(e) => {
                           e.preventDefault();
-                          setSubscriptionType("Type B");
+                          setSubscriptionType("Normal");
                           toggleDropdown("subscriptionType");
                         }}
                       >
-                        Type B
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="block px-4 py-0.5 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setSubscriptionType("Type C");
-                          toggleDropdown("subscriptionType");
-                        }}
-                      >
-                        Type C
+                        Normal
                       </button>
                     </li>
                   </ul>
