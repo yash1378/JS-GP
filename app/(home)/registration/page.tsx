@@ -434,6 +434,18 @@ const Registration: React.FC = () => {
                         12th Grade
                       </button>
                     </li>
+                    <li>
+                      <button
+                        className="block px-4 py-0.5 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelectedClass("Dropper");
+                          toggleDropdown("class");
+                        }}
+                      >
+                        Dropper
+                      </button>
+                    </li>
                   </ul>
                 </div>
               </div>
