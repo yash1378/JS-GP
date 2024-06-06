@@ -43,6 +43,7 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
   const [newmentor, setNewMentor] = useState<string>("");
+  const [selectedSub, setSelectedSub] = useState<string>("");
 
   //   const { phone } = router.query as { phone: string };
   const phone = params.phone;
@@ -86,6 +87,7 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
       setSelectedDate(mostRecentStudent.date);
       setSelectedClass(mostRecentStudent.class);
       setNewMentor(mostRecentStudent.mentor);
+      setSelectedSub(mostRecentStudent.sub);
     }
   }, [data, phone]);
 
@@ -106,6 +108,7 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
           selectedDate,
           selectedClass,
           newmentor,
+          selectedSub,
         }),
       });
 
@@ -114,6 +117,7 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
       setPhoneNumber("");
       setSelectedDate("");
       setSelectedClass("");
+      setNewMentor("");
 
       if (response.ok) {
         setMessage("Data Updated Successfully");
@@ -247,12 +251,34 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
                 onChange={(e) => setSelectedClass(e.target.value)}
               >
                 <option value="">Select a Class</option>
-                <option value="Class A">10th Grade</option>
-                <option value="Class B">11th Grade</option>
-                <option value="Class C">12th Grade</option>
+                <option value="10th Grade">10th Grade</option>
+                <option value="11th Grade">11th Grade</option>
+                <option value="12th Grade">12th Grade</option>
+                <option value="Dropper">Dropper</option>
                 {/* Add more options as needed */}
               </select>
             </div>
+            <div className="mb-4">
+              <label
+                htmlFor="selectedSub"
+                className="block mb-2 text-sm font-Damion-cursive text-white dark:text-white"
+              >
+                Sub
+              </label>
+              <select
+                id="selectedSub"
+                name="selectedsub"
+                className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm font-Damion-cursive text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                value={selectedSub}
+                onChange={(e) => setSelectedSub(e.target.value)}
+              >
+                <option value="">Select a Sub</option>
+                <option value="Premium">Premium</option>
+                <option value="Normal">Normal</option>
+                {/* Add more options as needed */}
+              </select>
+            </div>
+  
             <span className="mb-4">
               <button
                 // type="submit"
