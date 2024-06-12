@@ -28,6 +28,11 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Student[]>([]);
+
+  const [searchTextName, setSearchTextName] = useState<string>("");
+  const [suggestionsName, setSuggestionsName] = useState<Student[]>([]);
+
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [studentData, setStudentData] = useState<Student[]>(data);
   const [selectedMentor, setSelectedMentor] = useState<string>("");
@@ -62,6 +67,19 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
     setSuggestions(filteredNames);
   };
 
+  const handleSearchChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const filteredNames = studentData.filter(
+      (student, index, self) =>
+        student.name.toLowerCase().startsWith(value.toLowerCase()) &&
+        index === self.findIndex((s) => s.name === student.name)
+    );
+
+    setSearchTextName(value);
+    setSuggestionsName(filteredNames);
+  };
+
+
   const toast = async () => {
     setshowToast(true);
     setTimeout(() => {
@@ -74,6 +92,15 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
     setSelectedMentor(student.mentor); // Assuming mentor is the correct property name
     setSelectedIds([student.id]); // Assuming phone is the unique identifier for a student
     setSelectedmentors([student.mentor]);
+  };
+
+  const handleSuggestionClickName = (student: Student) => {
+    console.log(student)
+    setSearchTextName(student.name);
+    setSelectedMentor(student.mentor); // Assuming mentor is the correct property name
+    setSelectedIds([student.id]); // Assuming phone is the unique identifier for a student
+    setSelectedmentors([student.mentor]);
+
   };
 
   const handleCheckboxChange = (id: string, ment: string) => {
@@ -141,20 +168,14 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
           <b>Delete Page</b>
         </h1>
         <div>
-          <label
-            htmlFor="default-search"
-            className="mb-2 text-base font-Damion-cursive text-gray-900 sr-only dark:text-white"
-          >
-            Search
-          </label>
           <div
             className="relative mt-3 w-[80vw] mx-auto"
-            style={{ position: "sticky", top: "0",display:"flex" }}
+            style={{ position: "sticky", top: "0",display:"flex",flexDirection:"column",flexShrink:0 }}
           >
             <input
               type="search"
               id="default-search"
-              className="block w-[80vw] p-4 pl-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-[80vw] p-4 mb-2 pl-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search Student by Phone No..."
               required
               value={searchText}
@@ -174,6 +195,40 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
                         onClick={() => {
                           handleSuggestionClick(student);
                           setSuggestions([]);
+                        }}
+                      >
+                        {student.name} - <b> Mentor:</b> {student.mentor}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+            <br />
+            <br />
+            <input
+              type="search"
+              id="default-search"
+              className="block w-[80vw] p-4 pl-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Student by Name..."
+              required
+              value={searchTextName}
+              onChange={handleSearchChangeName}
+            />
+            {searchTextName.length > 0 && (
+              <div className="suggestions text-white">
+                {suggestionsName.length > 0 && (
+                  <ul>
+                    {suggestionsName.map((student, index) => (
+                      <li
+                        className={`${
+                          index % 2 === 0 ? "bg-black bg-opacity-20" : ""
+                        } hover:bg-indigo-600 hover:text-white`}
+                        style={{ cursor: "pointer" }}
+                        key={student.phone}
+                        onClick={() => {
+                          handleSuggestionClickName(student);
+                          setSuggestionsName([]);
                         }}
                       >
                         {student.name} - <b> Mentor:</b> {student.mentor}
@@ -238,7 +293,7 @@ function ParentComponent({ data }: ParentComponentProps): JSX.Element {
                     </tr>
                   </thead>
                   <tbody className="bg-gray-800 text-base font-Damion-cursive">
-                    {dat?.length > 0 ? (
+                    {dat != null ? (
                       dat.map((item, index) => (
                         <tr
                           key={item.phone} // Assuming phone is the unique identifier for a student

@@ -20,6 +20,11 @@ interface PhoneNumberInputPageProps {
 function PhoneNumberInputPage({ data }: PhoneNumberInputPageProps) {
   const [searchText, setSearchText] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Student[]>([]);
+
+  const [searchTextName, setSearchTextName] = useState<string>("");
+  const [suggestionsName, setSuggestionsName] = useState<Student[]>([]);
+
+
   const [studentData, setStudentData] = useState<Student[]>(data);
   const [selectedMentor, setSelectedMentor] = useState<string>(""); // State to track selected mentor
   const [isSubmitClicked, setIsSubmitClicked] = useState<boolean>(false);
