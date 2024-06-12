@@ -26,6 +26,10 @@ function Enroll({ data, d }: EnrollmentProps) {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString()
   );
+
+  const [searchTextName, setSearchTextName] = useState<string>("");
+  const [suggestionsName, setSuggestionsName] = useState<Student[]>([]);
+
   const [studentData, setStudentData] = useState<Student[]>(data);
   const [selectedMentor, setSelectedMentor] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -65,8 +69,48 @@ function Enroll({ data, d }: EnrollmentProps) {
     setSuggestions(filteredNames);
   };
 
+  const handleSearchChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const filteredNames = studentData.filter(
+      (student, index, self) =>
+        student.name.toLowerCase().startsWith(value.toLowerCase()) &&
+        index === self.findIndex((s) => s.name === student.name)
+    );
+
+    setSearchTextName(value);
+    setSuggestionsName(filteredNames);
+  };
+
   const handleSuggestionClick = (student: Student) => {
     setSearchText(student.name);
+    setSearchTextName(student.name);
+    setSelectedMentor(student.mentor);
+    setPhone(student.phone);
+    setEmail(student.email);
+    setClasss(student.class);
+    setSub(student.sub);
+    console.log("clicked");
+
+    const studentWithDate = d.find((s) => s.phone === student.phone);
+
+    if (studentWithDate) {
+      const originalDate = new Date(studentWithDate.date);
+      const newDate = new Date(
+        originalDate.getTime() + 30 * 24 * 60 * 60 * 1000
+      );
+      console.log(newDate);
+      setSelectedDate(newDate.toISOString().split("T")[0]);
+    } else {
+      setSelectedDate("");
+      console.error("Date not found for the selected student.");
+    }
+
+    setSuggestions([]);
+  };
+
+  const handleSuggestionClickName = (student: Student) => {
+    setSearchText(student.name);
+    setSearchTextName(student.name);
     setSelectedMentor(student.mentor);
     setPhone(student.phone);
     setEmail(student.email);
@@ -118,6 +162,7 @@ function Enroll({ data, d }: EnrollmentProps) {
         setSearchText("");
         setSelectedMentor("");
         setSelectedDate("");
+        setSearchTextName("");
         setMessage("Renrolled Successfully");
         setColor("green");
         toast();
@@ -178,9 +223,8 @@ function Enroll({ data, d }: EnrollmentProps) {
                       .map((student, index) => (
                         <li
                           className={`
-                ${
-                  index % 2 === 0 ? "bg-black bg-opacity-20" : ""
-                } hover:bg-indigo-600 hover:text-white
+                ${index % 2 === 0 ? "bg-black bg-opacity-20" : ""
+                            } hover:bg-indigo-600 hover:text-white
               `}
                           style={{ cursor: "pointer" }}
                           key={student.name}
@@ -196,12 +240,49 @@ function Enroll({ data, d }: EnrollmentProps) {
                 )}
               </div>
             )}
+            <br />
+            <br />
+            <input
+              type="search"
+              id="default-search"
+              className="block w-[80vw] p-4 pl-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Student by Name..."
+              required
+              value={searchTextName}
+              onChange={handleSearchChangeName}
+            />
+            {searchTextName.length > 0 && (
+              <div className="suggestions text-white">
+                {suggestionsName.length > 0 && (
+                  <ul>
+                    {suggestionsName.map((student, index) => (
+                      <li
+                        className={`${
+                          index % 2 === 0 ? "bg-black bg-opacity-20" : ""
+                        } hover:bg-indigo-600 hover:text-white`}
+                        style={{ cursor: "pointer" }}
+                        key={student.phone}
+                        onClick={() => {
+                          handleSuggestionClickName(student);
+                          setSuggestionsName([]);
+                        }}
+                      >
+                        {student.name} - <b> Mentor:</b> {student.mentor}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="ml-4 px-2 mt-4 w-[25vw] font-Damion-cursive ">
           <label className="text-white">Select Date&nbsp;:&nbsp;</label>
           <input
             type="date"
+            style={{
+              cursor:"pointer"
+            }}
             className="rounded-md px-1 py-3 transition-all ease-in duration-75 bg-gradient-to-br from-purple-600 to-blue-500"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}

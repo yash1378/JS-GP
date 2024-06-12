@@ -57,6 +57,7 @@ function PhoneNumberInputPage({ data }: PhoneNumberInputPageProps) {
     if (searchText.trim() !== "") {
       // Navigate to the "edit" page with the provided phone number as a query parameter
       router.push(`/student/${searchText}`);
+      // console.log(searchText);
     } else {
       // Display an error or alert if the phone number is empty
       setIsAlertVisible(true); // Reset isAlertVisible to true to make the alert reappear
@@ -80,10 +81,30 @@ function PhoneNumberInputPage({ data }: PhoneNumberInputPageProps) {
     setSuggestions(filteredNames);
   };
 
+  const handleSearchChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const filteredNames = studentData.filter(
+      (student, index, self) =>
+        student.name.toLowerCase().startsWith(value.toLowerCase()) &&
+        index === self.findIndex((s) => s.name === student.name)
+    );
+
+    setSearchTextName(value);
+    setSuggestionsName(filteredNames);
+  };
+
   const handleSuggestionClick = (student: Student) => {
     setSearchText(student.phone); // Update the search text with the student's phone
     setSelectedMentor(student.mentor);
+    setSearchTextName(student.name)
     console.log(selectedMentor);
+  };
+
+  const handleSuggestionClickName = (student: Student) => {
+    console.log(student)
+    setSearchTextName(student.name);
+    setSearchText(student.phone);
+    setSelectedMentor(student.mentor); // Assuming mentor is the correct property name
   };
 
   return (
@@ -112,17 +133,49 @@ function PhoneNumberInputPage({ data }: PhoneNumberInputPageProps) {
                 {suggestions.map((student, index) => (
                   <li
                     className={`
-                ${
-                  index % 2 === 0
-                    ? "bg-black bg-opacity-90"
-                    : "bg-white text-black"
-                } hover:bg-indigo-600 hover:text-white
+                ${index % 2 === 0
+                        ? "bg-black bg-opacity-90"
+                        : "bg-white text-black"
+                      } hover:bg-indigo-600 hover:text-white
               `}
                     style={{ cursor: "pointer" }}
                     key={student.name}
                     onClick={() => {
                       handleSuggestionClick(student);
                       setSuggestions([]);
+                    }}
+                  >
+                    {student.name} - <b> Mentor:</b> {student.mentor}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+        <br />
+        <br />
+        <input
+          type="search"
+          id="default-search"
+          name="searchText"
+          className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder="Search Student by Name..."
+          value={searchTextName}
+          onChange={handleSearchChangeName}
+        />
+        {searchTextName.length > 0 && (
+          <div className="suggestions text-white">
+            {suggestionsName.length > 0 && (
+              <ul>
+                {suggestionsName.map((student, index) => (
+                  <li
+                    className={`${index % 2 === 0 ? "bg-black bg-opacity-20" : ""
+                      } hover:bg-indigo-600 hover:text-white`}
+                    style={{ cursor: "pointer" }}
+                    key={student.phone}
+                    onClick={() => {
+                      handleSuggestionClickName(student);
+                      setSuggestionsName([]);
                     }}
                   >
                     {student.name} - <b> Mentor:</b> {student.mentor}
