@@ -15,7 +15,7 @@ interface StudentData {
 
 // as these are server components in this caching doesn't work
 async function getData() {
-  const res = await fetch("https://js-gp-backend.onrender.com/api/data", {
+  const res = await fetch("https://www.jsgp.xyz/api/data", {
     next: {
       revalidate: 0,
     },
@@ -31,7 +31,7 @@ async function getData() {
 
 // as these are server components in this caching doesn't work
 async function getAdditionalData() {
-  const response2 = await fetch("https://js-gp-backend.onrender.com/api/renrollData", {
+  const response2 = await fetch("https://www.jsgp.xyz/api/renrollData", {
     next: {
       revalidate: 0,
     },

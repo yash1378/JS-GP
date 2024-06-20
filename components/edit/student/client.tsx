@@ -96,7 +96,7 @@ const Student: React.FC<Props> = ({ data, d, params }) => {
     closeModal(e);
 
     try {
-      const response = await fetch(`https://js-gp-backend.onrender.com/student/${phone}`, {
+      const response = await fetch(`https://www.jsgp.xyz/student/${phone}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

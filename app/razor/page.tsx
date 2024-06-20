@@ -31,8 +31,8 @@ const PaymentPage: React.FC = () => {
 
   const pay = async () => {
     try {
-        const res = await fetch("https://js-gp-backend.onrender.com/getkey")
-      const response = await fetch('https://js-gp-backend.onrender.com/order', {
+        const res = await fetch("https://www.jsgp.xyz/getkey")
+      const response = await fetch('https://www.jsgp.xyz/order', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const PaymentPage: React.FC = () => {
         description: "Test Transaction",
         image: "https://example.com/your_logo",
         order_id: data.message.id,
-        callbackUrl: "https://js-gp-backend.onrender.com/api/paymentverify", // Changed to callbackUrl
+        callbackUrl: "https://www.jsgp.xyz/api/paymentverify", // Changed to callbackUrl
         prefill: {
           name: "Gaurav Kumar",
           email: "gaurav.kumar@example.com",

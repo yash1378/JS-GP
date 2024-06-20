@@ -76,7 +76,7 @@ const MentorInputForm: React.FC<MentorInputFormProps> = () => {
     try {
       const response = await fetch(
         // "http://4.224.114.194:8080/mentorData",
-        "https://js-gp-backend.onrender.com/mentorData",
+        "https://www.jsgp.xyz/mentorData",
         {
           method: "POST",
           headers: {

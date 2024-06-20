@@ -42,7 +42,7 @@ const DataPage: React.FC = () => {
   useEffect(() => {
     const updateData = async () => {
       try {
-        const newData = await fetch("https://js-gp-backend.onrender.com/api/mentorData");
+        const newData = await fetch("https://www.jsgp.xyz/api/mentorData");
         const res = await newData.json();
         setData(res);
       } catch (error) {
@@ -183,7 +183,7 @@ export default DataPage;
 // async function getData() {
 //     // const res = await fetch('http://20.204.209.69:8080/api/mentorData/',{
 //         const timestamp = new Date().getTime(); // Unique timestamp to prevent caching
-//         const res = await fetch(`https://js-gp-backend.onrender.com/api/mentorData?timestamp=${timestamp}`, {
+//         const res = await fetch(`https://www.jsgp.xyz/api/mentorData?timestamp=${timestamp}`, {
 //           headers: {
 //             'Cache-Control': 'no-store'
 //           },

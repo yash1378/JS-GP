@@ -17,7 +17,7 @@ async function fetchData() {
   // Fetch data from API
 
   //   await new Promise(resolve => setTimeout(resolve, 5000));
-  const response = await fetch("https://js-gp-backend.onrender.com/api/mentdelete", {
+  const response = await fetch("https://www.jsgp.xyz/api/mentdelete", {
     next: {
       revalidate: 0,
     },

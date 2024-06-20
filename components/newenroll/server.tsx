@@ -1,7 +1,7 @@
 // as these are server components in this caching doesn't work
 async function getData() {
   // const res = await fetch('http://20.204.209.69:8080/api/mentorData/',{
-  const res = await fetch("https://js-gp-backend.onrender.com/data_without_mentor", {
+  const res = await fetch("https://www.jsgp.xyz/data_without_mentor", {
     next: {
       revalidate: 0,
     },

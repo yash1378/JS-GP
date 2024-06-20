@@ -142,7 +142,7 @@ function Enroll({ data, d }: EnrollmentProps) {
 
     closeModal(e);
     try {
-      const response = await fetch("https://js-gp-backend.onrender.com/renrollment", {
+      const response = await fetch("https://www.jsgp.xyz/renrollment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
